@@ -14,11 +14,12 @@ A collection of makefiles for every imaginable use
   ```
   git submodule add https://github.com/glenux/makefiles-forever .makefiles
   ```
-* Include needed features in your makefile
+* Include needed features in the end of your makefile
   ```
+  # [...]
+
   -include .makefiles/featureA.mk
-  -include .makefiles/featureB.mk
-  # ...
+  -include .makefiles/featureB.mk  
   ```
 ## Good practices
 
