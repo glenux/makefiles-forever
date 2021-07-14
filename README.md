@@ -1,6 +1,6 @@
-# Makefiles forever
+# Makefiles Forever
 
-A collection of makefiles for every imaginable use
+A drop-in collection of makefiles libraries for your projects
 
 ## Description
 
