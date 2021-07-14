@@ -11,13 +11,13 @@ A collection of makefiles for every imaginable use
 ## Usage
 
 * Add this repository as a GIT submodule of your project
-
-    git submodule add 
-
+  ```
+  git submodule add 
+  ```
 * Include needed features in your makefile
-
-    -include path/to/makefiles-forever/feature.mk
-
+  ```
+  -include path/to/makefiles-forever/feature.mk
+  ```
 ## Good practices
 
 * Keep task parallelism in mind
