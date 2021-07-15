@@ -1,6 +1,6 @@
-# Makefiles forever
+# Makefiles Forever
 
-A collection of makefiles for every imaginable use
+A drop-in collection of makefiles libraries for your projects
 
 ## Description
 
@@ -11,13 +11,16 @@ A collection of makefiles for every imaginable use
 ## Usage
 
 * Add this repository as a GIT submodule of your project
+  ```
+  git submodule add https://github.com/glenux/makefiles-forever .makefiles
+  ```
+* Include needed features in the end of your makefile
+  ```
+  # [...]
 
-    git submodule add 
-
-* Include needed features in your makefile
-
-    -include path/to/makefiles-forever/feature.mk
-
+  -include .makefiles/featureA.mk
+  -include .makefiles/featureB.mk  
+  ```
 ## Good practices
 
 * Keep task parallelism in mind
