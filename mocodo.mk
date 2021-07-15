@@ -14,6 +14,8 @@ MOCODO_MLD_FILES=$(shell find $(IMAGES_DIR) \( -name '*.mld' ! -name '_*' \)) $(
 MOCODO_MLD_SVG=$(patsubst $(IMAGES_DIR)/%.mld,$(BUILD_IMAGES_DIR)/%.mld.svg,$(MOCODO_MLD_FILES))
 MOCODO_MLD_PDF=$(patsubst $(IMAGES_DIR)/%.mld,$(BUILD_IMAGES_DIR)/%.mld.pdf,$(MOCODO_MLD_FILES))
 
+MOCODO_APT_PACKAGES=ghostscript librsvg2-bin
+
 %.mcd.mld: %.mcd
 	tmp=$$(mktemp -d) \
 	&& pipenv run mocodo \
@@ -49,18 +51,13 @@ MOCODO_MLD_PDF=$(patsubst $(IMAGES_DIR)/%.mld,$(BUILD_IMAGES_DIR)/%.mld.pdf,$(MO
 	&& touch --reference $< $@
 
 %.mld.pdf: %.mld.svg
-	inkscape \
-        --export-type=pdf \
-        --export-overwrite \
-        --export-filename $@ \
-        $<
+	# rsvg-convert -f pdf $< > $@
+	rsvg-convert -f ps $< | gs -sDEVICE=pdfwrite -sOutputFile=$@ -f -
 
 %.mcd.pdf: %.mcd.svg
-	inkscape \
-        --export-type=pdf \
-        --export-overwrite \
-        --export-filename $@ \
-        $<
+	# rsvg-convert -f pdf $< > $@
+	rsvg-convert -f ps $< | gs -sDEVICE=pdfwrite -sOutputFile=$@ -f -
+
 
 mocodo-mcd-mld: $(MOCODO_MCD_MLD)
 
