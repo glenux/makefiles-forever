@@ -30,10 +30,13 @@ GRAPHVIZ_APT_PACKAGES := graphviz
 ## Rules
 ##
 
-$(GRAPHVIZ_DEST_DIR)/%.dot.svg: $(GRAPHVIZ_SRC_DIR)/%.dot
+$(GRAPHVIZ_DEST_DIR):
+	mkdir -p $(GRAPHVIZ_DEST_DIR)
+
+$(GRAPHVIZ_DEST_DIR)/%.dot.svg: $(GRAPHVIZ_SRC_DIR)/%.dot | $(GRAPHVIZ_DEST_DIR)
 	dot -Tsvg $< > $@
 
-$(GRAPHVIZ_DEST_DIR)/%.circo.svg: $(GRAPHVIZ_SRC_DIR)/%.circo
+$(GRAPHVIZ_DEST_DIR)/%.circo.svg: $(GRAPHVIZ_SRC_DIR)/%.circo | $(GRAPHVIZ_DEST_DIR)
 	circo -Tsvg $< > $@
 
 $(GRAPHVIZ_SVG): | $(GRAPHVIZ_DEST_DIR)
