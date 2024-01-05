@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: LGPL-3.0-or-later
+#
+# SPDX-FileCopyrightText: 2023 Glenn Y. Rolland <glenux@glenux.net>
+# Copyright © 2023 Glenn Y. Rolland <glenux@glenux.net>
+
 ##
 ## PLANTUML MODULE
 ##
@@ -13,12 +18,11 @@ PLANTUML_DEST_DIR ?=
 ## Internal variables (lazy recursive evaluation)
 ##
 
-## Find .uml graphs
+## Find .uml files
 PLANTUML_UML = $(shell find $(PLANTUML_SRC_DIR) \( -name '*.uml' ! -name '_*' \))
 PLANTUML_UML_PNG = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.png,$(PLANTUML_UML))
 PLANTUML_UML_SVG = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.svg,$(PLANTUML_UML))
 PLANTUML_UML_PDF = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.pdf,$(PLANTUML_UML))
-
 
 ##
 ## Rules
@@ -34,8 +38,10 @@ $(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
 	podman run -i plantuml/plantuml plantuml -pipe -tsvg < $< > $@
 
 $(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_DEST_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
-	#podman run -i plantuml/plantuml plantuml -pipe -tpdf < $< > $@
-	rsvg-convert -f pdf -o $@ $<
+	# podman run -i plantuml/plantuml plantuml -pipe -tpdf < $< > $@
+	# rsvg-convert -f pdf -o $@ $<
+	rsvg-convert -f ps $< | gs -sDEVICE=pdfwrite -sOutputFile=$@ -f -
+
 
 .PHONY: plantuml-uml-svg
 plantuml-uml-svg: $(PLANTUML_UML_SVG)
@@ -78,6 +84,4 @@ plantuml-info:
 	@echo "PLANTUML_UML: $(PLANTUML_UML)"
 	@echo "PLANTUML_UML_PDF: $(PLANTUML_UML_PDF)"
 	@echo "PLANTUML_UML_SVG: $(PLANTUML_UML_SVG)"
-
-.SUFFIXES:
 
