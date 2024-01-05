@@ -40,10 +40,10 @@ $(PLANTUML_DEST_DIR):
 	mkdir -p $(PLANTUML_DEST_DIR)
 
 $(PLANTUML_DEST_DIR)/%.uml.png: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	$(PLANTUML_COMMAND) -pipe -tpng < $< > $@
+	$(PLANTUML_PLANTUML_COMMAND) -pipe -tpng < $< > $@
 
 $(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	$(PLANTUML_COMMAND) -pipe -tsvg < $< > $@
+	$(PLANTUML_PLANTUML_COMMAND) -pipe -tsvg < $< > $@
 
 $(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_DEST_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
 	$(PLANTUML_RSVGCONVERT_COMMAND) -f ps $< | $(PLANTUML_GHOSTSCRIPT_COMMAND) -sDEVICE=pdfwrite -sOutputFile=$@ -f -
