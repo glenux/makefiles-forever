@@ -33,7 +33,7 @@ $(PLANTUML_DEST_DIR)/%.uml.png: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
 $(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
 	podman run -i plantuml/plantuml plantuml -pipe -tsvg < $< > $@
 
-$(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_SRC_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
+$(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_DEST_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
 	#podman run -i plantuml/plantuml plantuml -pipe -tpdf < $< > $@
 	rsvg-convert -f pdf -o $@ $<
 
@@ -80,3 +80,4 @@ plantuml-info:
 	@echo "PLANTUML_UML_SVG: $(PLANTUML_UML_SVG)"
 
 .SUFFIXES:
+
