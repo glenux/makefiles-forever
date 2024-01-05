@@ -5,13 +5,22 @@
 # Copyright © 2023 Glenn Y. Rolland <glenux@glenux.net>
 -->
 
+[![Build Status](https://cicd.apps.glenux.net/api/badges/glenux/makefiles-forever/status.svg)](https://cicd.apps.glenux.net/glenux/makefiles-forever)
+![License LGPL3.0-or-later](https://img.shields.io/badge/license-LGPL3.0--or--later-blue.svg)
+[![Donate on patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://patreon.com/glenux)
+
+> :information_source: This project is available on our self-hosted server and
+> on CodeBerg and GitHub as mirrors. For the latest updates and comprehensive
+> version of our project, please visit our primary repository at:
+> <https://code.apps.glenux.net/glenux/makefiles-forever>. 
+
 # Makefiles Forever
 
 A drop-in collection of makefiles libraries for your projects
 
 ## Description
 
-* plantuml.makefile — Automate the building [plantuml](https://plantuml.com/) diagrams.
+* plantuml.mk — Automate the building [plantuml](https://plantuml.com/) diagrams.
 * graphviz.mk — Streamline the creation of [graphviz](https://graphviz.org/) graph diagrams.
 * mocodo.mk — Facilitate the development of [mocodo](http://mocodo.wingi.net/) entity-relation and logical diagrams.
 * mypaint.mk - Automate the conversion of [mypaint](https://mypaint.app/) openraster images to usual image formats.
@@ -33,14 +42,14 @@ In your project's makefile, include the necessary modules. __The `include` instr
 __before your existing targets__.
 
 ```makefile
-# [... variable definitions ...]
+# [...variable definitions...]
 
 # Include as many Makefiles Forever features as your want
 include .makefiles/plantuml.mk
 include .makefiles/mocodo.mk
-include .makefiles/graphviz.mk
+# [...include as many modules as you want...]
 
-# [... targets definitions ...]
+# [...targets definitions...]
 ```
 
 Declare API variables (ex: `*_SRC_DIR`, `*_DEST_DIR`) for each module
@@ -54,9 +63,7 @@ PLANTUML_DEST_DIR=/path/to/output/directory
 MOCODO_SRC_DIR=/path/to/mocodo/files
 MOCODO_DEST_DIR=/path/to/output/directory
 
-# Graphviz Configuration
-GRAPHVIZ_SRC_DIR=/path/to/mocodo/files
-GRAPHVIZ_DEST_DIR=/path/to/output/directory
+# [...you the external variables of the modules you included...]
 
 # [ ... etc ...]
 ```
