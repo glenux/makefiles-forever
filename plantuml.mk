@@ -5,17 +5,19 @@
 ##
 ## External variables (API)
 ##
+PLANTUML_SUFFIX ?= uml
 PLANTUML_SRC_DIR ?=
 PLANTUML_DEST_DIR ?=
 
 ##
-## Internal variables
+## Internal variables (lazy recursive evaluation)
 ##
 
 ## Find .uml graphs
-PLANTUML_UML := $(shell find $(PLANTUML_SRC_DIR) \( -name '*.uml' ! -name '_*' \))
-PLANTUML_UML_SVG := $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.svg,$(PLANTUML_UML))
-PLANTUML_UML_PDF := $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.pdf,$(PLANTUML_UML))
+PLANTUML_UML = $(shell find $(PLANTUML_SRC_DIR) \( -name '*.uml' ! -name '_*' \))
+PLANTUML_UML_PNG = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.png,$(PLANTUML_UML))
+PLANTUML_UML_SVG = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.svg,$(PLANTUML_UML))
+PLANTUML_UML_PDF = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.pdf,$(PLANTUML_UML))
 
 
 ##
@@ -25,14 +27,21 @@ PLANTUML_UML_PDF := $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.
 $(PLANTUML_DEST_DIR):
 	mkdir -p $(PLANTUML_DEST_DIR)
 
-$(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	plantuml -pipe -tsvg < $< > $@
+$(PLANTUML_DEST_DIR)/%.uml.png: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
+	podman run -i plantuml/plantuml plantuml -pipe -tpng < $< > $@
 
-$(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	plantuml -pipe -tpdf < $< > $@
+$(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
+	podman run -i plantuml/plantuml plantuml -pipe -tsvg < $< > $@
+
+$(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_SRC_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
+	#podman run -i plantuml/plantuml plantuml -pipe -tpdf < $< > $@
+	rsvg-convert -f pdf -o $@ $<
 
 .PHONY: plantuml-uml-svg
 plantuml-uml-svg: $(PLANTUML_UML_SVG)
+
+.PHONY: plantuml-uml-png
+plantuml-uml-png: $(PLANTUML_UML_PNG)
 
 .PHONY: plantuml-uml-pdf
 plantuml-uml-pdf: $(PLANTUML_UML_PDF)
@@ -40,12 +49,19 @@ plantuml-uml-pdf: $(PLANTUML_UML_PDF)
 .PHONY: plantuml-svg
 plantuml-svg: plantuml-uml-svg
 
+.PHONY: plantuml-png
+plantuml-png: plantuml-uml-png
+
 .PHONY: plantuml-pdf
 plantuml-pdf: plantuml-uml-pdf
 
 .PHONY: plantuml-clean-svg
 plantuml-clean-svg:
 	rm -f $(PLANTUML_UML_SVG)
+
+.PHONY: plantuml-clean-png
+plantuml-clean-png:
+	rm -f $(PLANTUML_UML_PNG)
 
 .PHONY: plantuml-clean-pdf
 plantuml-clean-pdf:
@@ -63,4 +79,4 @@ plantuml-info:
 	@echo "PLANTUML_UML_PDF: $(PLANTUML_UML_PDF)"
 	@echo "PLANTUML_UML_SVG: $(PLANTUML_UML_SVG)"
 
-
+.SUFFIXES:
