@@ -84,10 +84,17 @@ plantuml-clean: plantuml-clean-pdf plantuml-clean-svg
 
 .PHONY: plantuml-info
 plantuml-info:
-	@echo "PLANTUML_DEST_DIR: $(PLANTUML_DEST_DIR)"
-	@echo "PLANTUML_SRC_DIR: $(PLANTUML_SRC_DIR)"
-	@echo "--"
-	@echo "PLANTUML_UML: $(PLANTUML_UML)"
-	@echo "PLANTUML_UML_PDF: $(PLANTUML_UML_PDF)"
-	@echo "PLANTUML_UML_SVG: $(PLANTUML_UML_SVG)"
+	@echo "PLANTUML:"
+	@echo "  External variables:"
+	@echo "    PLANTUML_SUFFIX: $(PLANTUML_SUFFIX)"
+	@echo "    PLANTUML_DEST_DIR: $(PLANTUML_DEST_DIR)"
+	@echo "    PLANTUML_SRC_DIR: $(PLANTUML_SRC_DIR)"
+	@echo "    PLANTUML_PLANTUML_COMMAND: $(PLANTUML_PLANTUML_COMMAND)"
+	@echo "    PLANTUML_RSVGCONVERT_COMMAND: $(PLANTUML_RSVGCONVERT_COMMAND)"
+	@echo "    PLANTUML_GHOSTSCRIPT_COMMAND: $(PLANTUML_GHOSTSCRIPT_COMMAND)"
+	@echo "  Internal variables"
+	@echo "    PLANTUML_UML: $(PLANTUML_UML)"
+	@echo "    PLANTUML_UML_PDF: $(PLANTUML_UML_PDF)"
+	@echo "    PLANTUML_UML_PNG: $(PLANTUML_UML_PNG)"
+	@echo "    PLANTUML_UML_SVG: $(PLANTUML_UML_SVG)"
 
