@@ -39,7 +39,7 @@ $ git submodule add https://github.com/glenux/makefiles-forever .makefiles
 ### Configuring your makefiles
 
 In your project's makefile, include the necessary modules. __The `include` instructions must be located
-__before your existing targets__.
+after your existing targets__.
 
 ```makefile
 # [...variable definitions...]
