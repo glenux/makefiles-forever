@@ -117,3 +117,20 @@ mocodo-clean-pdf:
 .PHONY: mocodo-clean
 mocodo-clean: mocodo-clean-mld mocodo-clean-svg mocodo-clean-pdf
 
+.PHONY: mocodo-info
+mocodo-info:
+	@echo "MOCODO:"
+	@echo "  External variables:"
+	@echo "    MOCODO_OPT: $(MOCODO_OPT)"
+	@echo "    MOCODO_SRC_DIR: $(MOCODO_SRC_DIR)"
+	@echo "    MOCODO_DEST_DIR: $(MOCODO_DEST_DIR)"
+	@echo "  Internal variables"
+	@echo "    MOCODO_MCD_FILES: $(MOCODO_MCD_FILES)"
+	@echo "    MOCODO_MLD_FILES: $(MOCODO_MLD_FILES)"
+	@echo "    MOCODO_MCD_MLD: $(MOCODO_MCD_MLD)"
+	@echo "    MOCODO_MCD_SVG: $(MOCODO_MCD_SVG)"
+	@echo "    MOCODO_MCD_PDF: $(MOCODO_MCD_PDF)"
+	@echo "    MOCODO_MLD_FILES: $(MOCODO_MLD_FILES)"
+	@echo "    MOCODO_MLD_SVG:  $(MOCODO_MLD_SVG)" 
+	@echo "    MOCODO_MLD_PDF:  $(MOCODO_MLD_PDF)"
+
