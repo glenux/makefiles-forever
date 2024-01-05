@@ -13,6 +13,9 @@
 PLANTUML_SUFFIX ?= uml
 PLANTUML_SRC_DIR ?=
 PLANTUML_DEST_DIR ?=
+PLANTUML_PLANTUML_COMMAND ?= podman run -i plantuml/plantuml plantuml
+PLANTUML_RSVGCONVERT_COMMAND ?= rsvg-convert
+PLANTUML_GHOSTSCRIPT_COMMAND ?= gs
 
 ##
 ## Internal variables (lazy recursive evaluation)
@@ -25,6 +28,11 @@ PLANTUML_UML_SVG = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.u
 PLANTUML_UML_PDF = $(patsubst $(PLANTUML_SRC_DIR)/%.uml,$(PLANTUML_DEST_DIR)/%.uml.pdf,$(PLANTUML_UML))
 
 ##
+## Prerequisistes (system packages)
+##
+GRAPHVIZ_APT_PACKAGES := plantuml librsvg2-bin ghostscript
+
+##
 ## Rules
 ##
 
@@ -32,15 +40,13 @@ $(PLANTUML_DEST_DIR):
 	mkdir -p $(PLANTUML_DEST_DIR)
 
 $(PLANTUML_DEST_DIR)/%.uml.png: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	podman run -i plantuml/plantuml plantuml -pipe -tpng < $< > $@
+	$(PLANTUML_COMMAND) -pipe -tpng < $< > $@
 
 $(PLANTUML_DEST_DIR)/%.uml.svg: $(PLANTUML_SRC_DIR)/%.uml | $(PLANTUML_DEST_DIR)
-	podman run -i plantuml/plantuml plantuml -pipe -tsvg < $< > $@
+	$(PLANTUML_COMMAND) -pipe -tsvg < $< > $@
 
 $(PLANTUML_DEST_DIR)/%.uml.pdf: $(PLANTUML_DEST_DIR)/%.uml.svg | $(PLANTUML_DEST_DIR)
-	# podman run -i plantuml/plantuml plantuml -pipe -tpdf < $< > $@
-	# rsvg-convert -f pdf -o $@ $<
-	rsvg-convert -f ps $< | gs -sDEVICE=pdfwrite -sOutputFile=$@ -f -
+	$(PLANTUML_RSVGCONVERT_COMMAND) -f ps $< | $(PLANTUML_GHOSTSCRIPT_COMMAND) -sDEVICE=pdfwrite -sOutputFile=$@ -f -
 
 
 .PHONY: plantuml-uml-svg
