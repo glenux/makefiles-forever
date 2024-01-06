@@ -37,7 +37,6 @@ $(GRAPHVIZ_DEST_DIR)/%.circo.svg: $(GRAPHVIZ_SRC_DIR)/%.circo
 	circo -Tsvg $< > $@
 
 $(GRAPHVIZ_SVG): | $(GRAPHVIZ_DEST_DIR)
-	mkdir -p $(GRAPHVIZ_DEST_DIR)
 
 graphviz-build-dot-svg: $(GRAPHVIZ_DOT_SVG)
 
